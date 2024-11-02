@@ -65,4 +65,4 @@ Route::post("/panier", [PanierController::class, "creer"])->name("panier.store")
 
 // Route::resource("panier",ProductController::class);
 // Route::apiResource("utilisateur",APIUtilisateurController::class);
-Route::get("/u/y", [APIUtilisateurController::class,"index"])->name("u");
+// Route::get("/u/y", [APIUtilisateurController::class,"index"])->name("u");

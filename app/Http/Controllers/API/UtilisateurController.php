@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Utilisateur;
+use Dflydev\DotAccessData\Util;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UtilisateurController extends Controller
 {
@@ -13,16 +15,8 @@ class UtilisateurController extends Controller
      */
     public function index()
     {
-        return response()->json(Utilisateur::all());
-        // return view("welcome");
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
         //
+        return response()->json(Utilisateur::withTrashed()->get());
     }
 
     /**
@@ -31,6 +25,10 @@ class UtilisateurController extends Controller
     public function store(Request $request)
     {
         //
+        $fillables = $request->all();
+        $fillables["password"] = Hash::make($fillables["password"]);
+        $utilisateur = Utilisateur::create($fillables);
+        return response()->json($utilisateur);
     }
 
     /**
@@ -39,14 +37,7 @@ class UtilisateurController extends Controller
     public function show(Utilisateur $utilisateur)
     {
         //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Utilisateur $utilisateur)
-    {
-        //
+        return response()->json($utilisateur);
     }
 
     /**
@@ -55,6 +46,11 @@ class UtilisateurController extends Controller
     public function update(Request $request, Utilisateur $utilisateur)
     {
         //
+        $fillables = $request->all();
+        $fillables["password"] = Hash::make($fillables["password"]);
+        $utilisateur->fill($fillables);
+        $utilisateur->save();
+        return response()->json($utilisateur);
     }
 
     /**
@@ -63,5 +59,10 @@ class UtilisateurController extends Controller
     public function destroy(Utilisateur $utilisateur)
     {
         //
+        $utilisateur->delete();
+        return response()->json([
+            "message" => "l'utilisateur numero " . $utilisateur->id . " est bien supprimee.",
+            "id" => $utilisateur->id,
+        ]);
     }
 }
