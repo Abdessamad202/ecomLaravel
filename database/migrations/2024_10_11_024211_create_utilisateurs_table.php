@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('Lname',20);
             $table->string('email',30);
             $table->string('password',60);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

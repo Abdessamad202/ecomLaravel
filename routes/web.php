@@ -3,6 +3,8 @@
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\UtilisateurController as APIUtilisateurController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PanierController;
@@ -62,3 +64,5 @@ Route::resource("panier",PanierController::class);
 Route::post("/panier", [PanierController::class, "creer"])->name("panier.store");
 
 // Route::resource("panier",ProductController::class);
+// Route::apiResource("utilisateur",APIUtilisateurController::class);
+Route::get("/u/y", [APIUtilisateurController::class,"index"])->name("u");
