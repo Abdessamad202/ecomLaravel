@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UtilisateurResource;
 use App\Models\Utilisateur;
 use Dflydev\DotAccessData\Util;
 use Illuminate\Http\Request;
@@ -16,7 +17,8 @@ class UtilisateurController extends Controller
     public function index()
     {
         //
-        return response()->json(Utilisateur::withTrashed()->get());
+        return UtilisateurResource::collection(Utilisateur::withTrashed()->get());
+        // return response()->json(Utilisateur::withTrashed()->get());
     }
 
     /**
@@ -28,7 +30,8 @@ class UtilisateurController extends Controller
         $fillables = $request->all();
         $fillables["password"] = Hash::make($fillables["password"]);
         $utilisateur = Utilisateur::create($fillables);
-        return response()->json($utilisateur);
+        return new UtilisateurResource($utilisateur);
+        // return response()->json($utilisateur);
     }
 
     /**
@@ -37,7 +40,8 @@ class UtilisateurController extends Controller
     public function show(Utilisateur $utilisateur)
     {
         //
-        return response()->json($utilisateur);
+        return new UtilisateurResource($utilisateur);
+        // return response()->json($utilisateur);
     }
 
     /**
@@ -50,7 +54,8 @@ class UtilisateurController extends Controller
         $fillables["password"] = Hash::make($fillables["password"]);
         $utilisateur->fill($fillables);
         $utilisateur->save();
-        return response()->json($utilisateur);
+        return new UtilisateurResource($utilisateur);
+        // return response()->json($utilisateur);
     }
 
     /**
